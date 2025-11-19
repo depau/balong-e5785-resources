@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+TTY="${1:-}"
+
+if [ -z "$TTY" ]; then
+    echo "No tty specified, assuming /dev/ttyAMA0"
+    TTY="/dev/ttyAMA0"
+fi
+
+while :; do
+  [ -c "$TTY" ] || { sleep 1; continue; }
+  echo "Starting shell on $TTY"
+  setsid sh -c "exec <$TTY >$TTY 2>&1; exec sh -i"
+  sleep 1
+done
+

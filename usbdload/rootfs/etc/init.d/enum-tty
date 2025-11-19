@@ -1,0 +1,12 @@
+#!/bin/sh
+cd /dev
+
+while :; do
+  (
+  for t in $(ls | grep tty); do
+    [ -c "$t" ] && echo "$t" >"$t" 2>/dev/null
+  done
+  ) &
+  sleep 3
+done
+

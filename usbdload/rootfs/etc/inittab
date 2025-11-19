@@ -1,0 +1,2 @@
+::sysinit:/etc/init.d/rcS
+::ctrlaltdel:/bin/umount -a -r

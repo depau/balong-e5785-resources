@@ -1,0 +1,45 @@
+#! /bin/sh
+
+echo "Increase log level"
+echo 7 > /proc/sys/kernel/printk
+
+/bin/mount -a
+#/bin/busybox --install
+/bin/mount -t sysfs none /sys
+/bin/mount -t devpts devpts /dev/pts
+
+#if [ -d /sys/class/android_usb/android0 ]
+#then
+#    echo "Starting USB Android Gadget"
+#    echo hsusb > /sys/devices/platform/usb_bam/enable
+#    echo 0 > /sys/class/android_usb/android0/enable
+#    echo 0x9025 > /sys/class/android_usb/android0/idProduct
+#    echo 0x05C6 > /sys/class/android_usb/android0/idVendor
+#    echo diag > /sys/class/android_usb/android0/f_diag/clients
+#    echo smd,tty > /sys/class/android_usb/android0/f_serial/transports
+#    echo smd,bam2bam > /sys/class/android_usb/android0/f_rmnet/transports
+#    echo diag,adb,serial,rmnet,mass_storage > /sys/class/android_usb/android0/functions
+#    echo 1 > /sys/class/android_usb/android0/enable
+#fi
+
+#ifconfig lo up
+#mknod /dev/null c 1 3
+#chmod 666 /dev/null
+/etc/init.d/usb start
+
+/sbin/mdev -s
+#/sbin/adbd &
+
+mkdir -p /var
+
+# Start shell over ttyAMA0
+#/etc/init.d/enum-tty &
+/etc/init.d/serial-sh /dev/ttyAMA0 &
+/etc/init.d/serial-sh /dev/uw_tty0 &
+
+#add for android sytem cmd
+mkdir -p /system
+mkdir -p /system/bin
+cp /bin/sh  /system/bin
+
+#huaweidload &
