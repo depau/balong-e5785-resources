@@ -44,7 +44,16 @@ I also shared my changes required to make modern dropbear build for this device:
 - [rootfs patches](./rootfs_patches): patches to add useful tools and scripts
   to the modem's root filesystem.
 - [usbloader](./usbdload): a usbloader image for backup, recovery and modding.
-- [stock firmware](./stock_firmware): original firmware images I've had to 
+- [stock firmware](./stock_firmware): original firmware images I've had to
   f\*\*\*ing pay to obtain. You may have them for free.
 - [oled menu scripts](./oled_scripts): my custom scripts for the OLED menu
   hijack.
+
+## UART (serial) pinout
+
+See the following image for the UART pinout on the E5785 PCB (3.3V logic level):
+
+![E5785 UART pinout](images/uart.jpg)
+
+It's possible the other two pins nearby are for SWD debugging, but I haven't
+tested them.
