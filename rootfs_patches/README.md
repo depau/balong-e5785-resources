@@ -133,5 +133,27 @@ ln -s llvm-strip strip
 popd
 
 export PATH="$NDK_PATH:$PATH"
+```
+
+Then, to build MicroPython without FFI support:
+
+```
+cd ports/unix
 make CC='armv7a-linux-androideabi19-clang' CXX='armv7a-linux-androideabi19-clang++' LIBPTHREAD='' MICROPY_STANDALONE=1 MICROPY_PY_FFI=0 -j$(nproc)
+```
+
+To build with FFI support
+
+```bash
+cd ports/unix
+
+# Build libffi
+git clone https://github.com/libffi/libffi.git
+cd libffi
+mkdir build && cd build
+../configure --host=armv7a-linux-androideabi19 CC=armv7a-linux-androideabi19-clang CXX=armv7a-linux-androideabi19-clang++
+make -j$(nproc)
+
+cd ../..
+make CC='armv7a-linux-androideabi19-clang' CXX='armv7a-linux-androideabi19-clang++' LIBPTHREAD='' MICROPY_PY_FFI=1 LDFLAGS_EXTRA='-L./libffi/build/.libs -l:libffi.a' CFLAGS_EXTRA='-isystem ./libffi/build/include' -j(nproc)
 ```
